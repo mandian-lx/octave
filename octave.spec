@@ -3,7 +3,7 @@
 Summary:	GNU Octave -- a high-level language for numerical computations
 Name:		octave
 Version:	%{version}
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
@@ -14,8 +14,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 # (Abel) If you want atlas support, install atlas noarch RPM, then
 # go to /usr/src/ATLAS and build the library. After that, rebuild
 # this RPM and you are done. Feel like using Gentoo?
-BuildRequires:	libblas-devel
-BuildRequires:	liblapack-devel
+BuildRequires:	blas-devel
+BuildRequires:	lapack-devel
 
 BuildRequires:	dejagnu
 BuildRequires:	emacs
