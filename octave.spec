@@ -1,6 +1,6 @@
 %define version 2.1.73
 
-Summary:	GNU Octave -- a high-level language for numerical computations
+Summary:	A high-level language for numerical computations
 Name:		octave
 Version:	%{version}
 Release:	%mkrel 3
