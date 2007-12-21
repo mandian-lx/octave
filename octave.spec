@@ -10,6 +10,7 @@ Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
 Source4:	octave-2.1.36-emac.lisp.bz2
 Patch1:		octave-2.1.63-insecure-tempfile.patch.bz2
 URL:		http://www.octave.org/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 # (Abel) If you want atlas support, install atlas noarch RPM, then
 # go to /usr/src/ATLAS and build the library. After that, rebuild
 # this RPM and you are done. Feel like using Gentoo?
