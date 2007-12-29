@@ -1,9 +1,9 @@
-%define version 2.1.73
+%define version 3.0.0
 
 Summary:	A high-level language for numerical computations
 Name:		octave
 Version:	%{version}
-Release:	%mkrel 3
+Release:	%mkrel 1
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
@@ -22,9 +22,9 @@ BuildRequires:	emacs
 BuildRequires:	emacs-bin
 BuildRequires:	fftw-devel >= 0:3.0.1
 BuildRequires:	gcc-gfortran
-BuildConflicts:	gcc3.3-g77
-BuildConflicts: gcc3.3-c++
-BuildConflicts:	gcc3.3
+#BuildConflicts:	gcc3.3-g77
+#BuildConflicts: gcc3.3-c++
+#BuildConflicts:	gcc3.3
 BuildRequires:	gnuplot
 BuildRequires:	hdf5-devel
 BuildRequires:	ncurses-devel
@@ -105,15 +105,19 @@ mkdir -p $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/
 install -m 644 %name.elc $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/%name.elc
 install -m 644 %name.el  $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/
 
+# remove .desktop file because menu DGX menu isn't configured yet
+# TODO : add XDG menu
+rm -f $RPM_BUILD_ROOT/%{_datadir}/applications/www.octave.org-octave.desktop
+
 # prepare documentation
 rm -rf package-doc
 mkdir package-doc
 
 mkdir package-doc/interpreter
-ln doc/interpreter/*.html package-doc/interpreter/
+ln doc/interpreter/HTML/*.html package-doc/interpreter/
 
 mkdir package-doc/liboctave
-ln doc/liboctave/*.html package-doc/liboctave/
+ln doc/liboctave/HTML/*.html package-doc/liboctave/
 
 mkdir package-doc/faq
 ln doc/faq/*.html package-doc/faq/
@@ -128,11 +132,16 @@ install -m 644 doc/faq/Octave-FAQ.info $RPM_BUILD_ROOT%{_infodir}/
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/Array.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/defaults.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/dim-vector.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-sstream.h
+#multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-sstream.h
+%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-error.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-utils.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-cmplx.h
+%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-dlldefs.h
+%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-types.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/pathsearch.h
 %multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/str-vec.h
+%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/syswait.h
+
 
 
 %clean
@@ -169,11 +178,15 @@ rm -rf $RPM_BUILD_ROOT
 %multiarch %{multiarch_includedir}/octave-*/octave/Array.h
 %multiarch %{multiarch_includedir}/octave-*/octave/defaults.h
 %multiarch %{multiarch_includedir}/octave-*/octave/dim-vector.h
-%multiarch %{multiarch_includedir}/octave-*/octave/lo-sstream.h
+#multiarch %{multiarch_includedir}/octave-*/octave/lo-sstream.h
+%multiarch %{multiarch_includedir}/octave-*/octave/lo-error.h
 %multiarch %{multiarch_includedir}/octave-*/octave/lo-utils.h
 %multiarch %{multiarch_includedir}/octave-*/octave/oct-cmplx.h
+%multiarch %{multiarch_includedir}/octave-*/octave/oct-dlldefs.h
+%multiarch %{multiarch_includedir}/octave-*/octave/oct-types.h
 %multiarch %{multiarch_includedir}/octave-*/octave/pathsearch.h
 %multiarch %{multiarch_includedir}/octave-*/octave/str-vec.h
+%multiarch %{multiarch_includedir}/octave-*/octave/syswait.h
 
 
 %files doc
@@ -182,4 +195,3 @@ rm -rf $RPM_BUILD_ROOT
 %doc package-doc/*
 %{_infodir}/liboctave.*
 %{_infodir}/Octave-FAQ.*
-
