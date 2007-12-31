@@ -1,30 +1,32 @@
-%define version 3.0.0
+%define octave_api api-v32
 
-Summary:	A high-level language for numerical computations
 Name:		octave
-Version:	%{version}
-Release:	%mkrel 1
+Version:	3.0.0
+Release:	%mkrel 2
+Summary:	A high-level language for numerical computations
 License:	GPL
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
-Source4:	octave-2.1.36-emac.lisp.bz2
-Patch1:		octave-2.1.63-insecure-tempfile.patch.bz2
+Source4:	octave-2.1.36-emac.lisp
+Patch1:		octave-2.1.63-insecure-tempfile.patch
 URL:		http://www.octave.org/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Provides:       octave(api) = %{octave_api}
+Requires:	gnuplot
+%ifarch x86_64
+Requires:	lib64hdf5_0
+%else
+Requires:	libhdf5_0
+%endif
 # (Abel) If you want atlas support, install atlas noarch RPM, then
 # go to /usr/src/ATLAS and build the library. After that, rebuild
 # this RPM and you are done. Feel like using Gentoo?
 BuildRequires:	blas-devel
 BuildRequires:	lapack-devel
-
 BuildRequires:	dejagnu
 BuildRequires:	emacs
 BuildRequires:	emacs-bin
 BuildRequires:	fftw-devel >= 0:3.0.1
 BuildRequires:	gcc-gfortran
-#BuildConflicts:	gcc3.3-g77
-#BuildConflicts: gcc3.3-c++
-#BuildConflicts:	gcc3.3
 BuildRequires:	gnuplot
 BuildRequires:	hdf5-devel
 BuildRequires:	ncurses-devel
@@ -36,13 +38,7 @@ BuildRequires:	texinfo
 BuildRequires:	gperf
 BuildRequires:	flex
 BuildRequires:	bison
-
-Requires:	gnuplot
-%ifarch x86_64
-Requires:	lib64hdf5_0
-%else
-Requires:	libhdf5_0
-%endif
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -74,15 +70,17 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
+OCTAVE_API=`%{__sed} -nr 's/^#define OCTAVE_API_VERSION "(api-v[[:digit:]]+)"$/\1/p' src/version.h`
+test "x${OCTAVE_API}" = x%{octave_api} || exit 1
 %patch1 -p1 -b .tempfile
 
 %build
 export CC=gcc
 export CXX=g++
 export F77=gfortran
-CFLAGS="$RPM_OPT_FLAGS -fno-fast-math" \
-CXXFLAGS="$RPM_OPT_FLAGS -fno-fast-math" \
-FFLAGS="$RPM_OPT_FLAGS -fno-fast-math" \
+CFLAGS="%{optflags} -fno-fast-math" \
+CXXFLAGS="%{optflags} -fno-fast-math" \
+FFLAGS="%{optflags} -fno-fast-math" \
 %configure2_5x \
 	--enable-dl \
 	--enable-shared \
@@ -93,21 +91,21 @@ FFLAGS="$RPM_OPT_FLAGS -fno-fast-math" \
 #make check
 
 # emacs mode
-bzcat %SOURCE4 > octave.el
+cp -a %SOURCE4 octave.el
 emacs -batch -q -no-site-file -f batch-byte-compile %name.el
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
-find $RPM_BUILD_ROOT -name "*.oct" -print0 | xargs -0 -r strip --strip-unneeded
+find %{buildroot} -name "*.oct" -print0 | xargs -0 -r strip --strip-unneeded
 
-mkdir -p $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/
-install -m 644 %name.elc $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/%name.elc
-install -m 644 %name.el  $RPM_BUILD_ROOT/%_sysconfdir/emacs/site-start.d/
+mkdir -p %{buildroot}/%_sysconfdir/emacs/site-start.d/
+install -m 644 %name.elc %{buildroot}/%_sysconfdir/emacs/site-start.d/%name.elc
+install -m 644 %name.el  %{buildroot}/%_sysconfdir/emacs/site-start.d/
 
 # remove .desktop file because menu DGX menu isn't configured yet
 # TODO : add XDG menu
-rm -f $RPM_BUILD_ROOT/%{_datadir}/applications/www.octave.org-octave.desktop
+rm -f %{buildroot}/%{_datadir}/applications/www.octave.org-octave.desktop
 
 # prepare documentation
 rm -rf package-doc
@@ -125,27 +123,27 @@ ln doc/faq/*.html package-doc/faq/
 mkdir package-doc/examples
 ln examples/[[:lower:]]* package-doc/examples/
 
-install -m 644 doc/liboctave/liboctave.info $RPM_BUILD_ROOT%{_infodir}/
-install -m 644 doc/faq/Octave-FAQ.info $RPM_BUILD_ROOT%{_infodir}/
+install -m 644 doc/liboctave/liboctave.info %{buildroot}%{_infodir}/
+install -m 644 doc/faq/Octave-FAQ.info %{buildroot}%{_infodir}/
 
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/config.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/Array.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/defaults.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/dim-vector.h
-#multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-sstream.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-error.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/lo-utils.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-cmplx.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-dlldefs.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/oct-types.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/pathsearch.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/str-vec.h
-%multiarch_includes $RPM_BUILD_ROOT%{_includedir}/octave-%{version}/octave/syswait.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/config.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/Array.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/defaults.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/dim-vector.h
+#multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/lo-sstream.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/lo-error.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/lo-utils.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/oct-cmplx.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/oct-dlldefs.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/oct-types.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/pathsearch.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/str-vec.h
+%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/syswait.h
 
 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %_install_info octave.info
