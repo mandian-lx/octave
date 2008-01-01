@@ -15,6 +15,8 @@ Obsoletes:      octave3 < %{epoch}:%{version}-%{release}
 Provides:       octave3 = %{epoch}:%{version}-%{release}
 Provides:       octave(api) = %{octave_api}
 Requires:       gnuplot
+Requires(post): desktop-file-utils
+Requires(postun): desktop-file-utils
 Requires(post): rpm-helper
 Requires(post): info-install
 Requires(preun): info-install
@@ -24,6 +26,7 @@ BuildRequires:  bison
 # this RPM and you are done. Feel like using Gentoo?
 BuildRequires:  blas-devel
 BuildRequires:  dejagnu
+BuildRequires:  desktop-file-utils
 BuildRequires:  emacs
 BuildRequires:  emacs-bin
 BuildRequires:  fftw-devel >= 0:3.0.1
