@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.0.0
-Release:        %mkrel 3
+Release:        %mkrel 4
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPL
@@ -32,6 +32,7 @@ BuildRequires:  emacs-bin
 BuildRequires:  fftw-devel >= 0:3.0.1
 BuildRequires:  flex
 BuildRequires:  gcc-gfortran
+BuildRequires:	glpk-devel
 BuildRequires:  gnuplot
 # (Abel) not strictly needed, but play safe
 BuildRequires:  gperf
@@ -42,6 +43,14 @@ BuildRequires:  readline-devel
 BuildRequires:  texinfo
 BuildRequires:  tetex-dvips
 BuildRequires:  tetex-latex
+# (Lev) needed to support sparse matrix functionality
+BuildRequires:  amd-devel
+BuildRequires:  camd-devel
+BuildRequires:  ccolamd-devel
+BuildRequires:  cholmod-devel
+BuildRequires:  colamd-devel
+BuildRequires:  cxsparse-devel
+BuildRequires:  umfpack-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
