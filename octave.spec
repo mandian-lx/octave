@@ -126,7 +126,7 @@ test "x${OCTAVE_API}" = x%{octave_api} || exit 1
 %{__cp} -a %{name}.el %{buildroot}%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
 # prepare documentation
-%{__rm} -r package-doc
+%{__rm} -rf package-doc
 %{__mkdir_p} package-doc
 
 %{__mkdir_p} package-doc/interpreter
