@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.0.0
-Release:        %mkrel 4
+Release:        %mkrel 5
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPL
@@ -71,6 +71,8 @@ C++, C, Fortran, or other languages.
 %package devel
 Summary:        Development headers and files for Octave
 Group:          Development/C
+Obsoletes:      octave3-devel < %{epoch}:%{version}-%{release}
+Provides:       octave3-devel = %{epoch}:%{version}-%{release}
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires:       blas-devel
 Requires:       fftw-devel
