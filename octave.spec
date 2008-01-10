@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.0.0
-Release:        %mkrel 5
+Release:        %mkrel 6
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPL
@@ -43,6 +43,8 @@ BuildRequires:  readline-devel
 BuildRequires:  texinfo
 BuildRequires:  tetex-dvips
 BuildRequires:  tetex-latex
+BuildRequires: 	pcre-devel
+BuildRequires:	curl-devel
 # (Lev) needed to support sparse matrix functionality
 BuildRequires:  amd-devel
 BuildRequires:  camd-devel
