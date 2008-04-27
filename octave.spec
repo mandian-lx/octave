@@ -1,11 +1,11 @@
 %define octave_api api-v32
 
 Name:           octave
-Version:        3.0.0
-Release:        %mkrel 6
+Version:        3.0.1
+Release:        %mkrel 1
 Epoch:          0
 Summary:        High-level language for numerical computations
-License:        GPL
+License:        GPLv3+
 Group:          Sciences/Mathematics
 Source0:        ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
 Source4:        octave-2.1.36-emac.lisp
@@ -210,7 +210,7 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 
 %files
 %defattr(0644,root,root,0755)
-%doc COPYING NEWS* PROJECTS README README.Linux README.kpathsea ROADMAP
+%doc NEWS* PROJECTS README README.Linux README.kpathsea ROADMAP
 %doc SENDING-PATCHES THANKS emacs examples
 #%%doc doc/interpreter/octave.p*
 #%%doc doc/faq doc/interpreter/HTML doc/refcard
