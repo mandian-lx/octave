@@ -191,14 +191,18 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %{__rm} -rf %{buildroot}
 
 %post
+%if %mdkversion < 200900
 /sbin/ldconfig
+%endif
 %_install_info octave.info
 %create_ghostfile %{_datadir}/octave/octave_packages root root 0664
 
 %preun
 %_remove_install_info octave.info
 
+%if %mdkversion < 200900
 %postun -p /sbin/ldconfig
+%endif
 
 %post doc
 %_install_info liboctave.info
