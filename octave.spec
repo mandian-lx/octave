@@ -113,6 +113,7 @@ test "x${OCTAVE_API}" = x%{octave_api} || exit 1
 
 %build
 %define enable64 no
+export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{configure2_5x} --enable-dl --enable-shared --disable-static --enable-lite-kernel --enable-picky-flags --enable-64=%{enable64} --with-f77=gfortran
 %{make} OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
