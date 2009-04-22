@@ -1,16 +1,15 @@
 %define octave_api api-v32
 
 Name:           octave
-Version:        3.0.3
-Release:        %mkrel 2
+Version:        3.0.5
+Release:        %mkrel 1
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPLv3+
 Group:          Sciences/Mathematics
 Source0:        ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
 Source4:        octave-2.1.36-emac.lisp
-Patch0:		octave-3.0.3-fix-suitesparse-3.2.patch
-Patch1:		octave-3.0.3-string-format.patch
+Patch0:		octave-3.0.3-string-format.patch
 URL:            http://www.octave.org/
 Obsoletes:      octave3 < %{epoch}:%{version}-%{release}
 Provides:       octave3 = %{epoch}:%{version}-%{release}
@@ -107,8 +106,7 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch0 -p1 -b .suitesparse
-%patch1 -p1 -b .strfmt
+%patch0 -p1 -b .strfmt
 
 OCTAVE_API=`%{__sed} -nr 's/^#define OCTAVE_API_VERSION "(api-v[[:digit:]]+)"$/\1/p' src/version.h`
 test "x${OCTAVE_API}" = x%{octave_api} || exit 1
