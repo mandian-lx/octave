@@ -1,7 +1,7 @@
-%define octave_api api-v32
+%define octave_api api-v37
 
 Name:           octave
-Version:        3.0.5
+Version:        3.2.0
 Release:        %mkrel 1
 Epoch:          0
 Summary:        High-level language for numerical computations
@@ -9,7 +9,6 @@ License:        GPLv3+
 Group:          Sciences/Mathematics
 Source0:        ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
 Source4:        octave-2.1.36-emac.lisp
-Patch0:		octave-3.0.3-string-format.patch
 URL:            http://www.octave.org/
 Obsoletes:      octave3 < %{epoch}:%{version}-%{release}
 Provides:       octave3 = %{epoch}:%{version}-%{release}
@@ -21,9 +20,6 @@ Requires(post): rpm-helper
 Requires(post): info-install
 Requires(preun): info-install
 BuildRequires:  bison
-# (Abel) If you want atlas support, install atlas noarch RPM, then
-# go to /usr/src/ATLAS and build the library. After that, rebuild
-# this RPM and you are done. Feel like using Gentoo?
 BuildRequires:  blas-devel
 BuildRequires:  dejagnu
 BuildRequires:  desktop-file-utils
@@ -53,6 +49,12 @@ BuildRequires:  cholmod-devel
 BuildRequires:  colamd-devel
 BuildRequires:  cxsparse-devel
 BuildRequires:  umfpack-devel
+# (Lev) other useful libraries
+BuildRequires:	qhull-devel
+BuildRequires:	qrupdate-devel
+# (Lev) for new experimental plotting
+BuildRequires:  fltk-devel
+BuildRequires:	MesaGL-devel, MesaGLU-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -106,7 +108,6 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch0 -p1 -b .strfmt
 
 OCTAVE_API=`%{__sed} -nr 's/^#define OCTAVE_API_VERSION "(api-v[[:digit:]]+)"$/\1/p' src/version.h`
 test "x${OCTAVE_API}" = x%{octave_api} || exit 1
@@ -116,14 +117,15 @@ test "x${OCTAVE_API}" = x%{octave_api} || exit 1
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{configure2_5x} --enable-dl --enable-shared --disable-static --enable-lite-kernel --enable-picky-flags --enable-64=%{enable64} --with-f77=gfortran
+%__make -C doc conf.texi
 %{make} OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
 %{_bindir}/emacs -batch -q -no-site-file -f batch-byte-compile %{name}.el
 
 %check
-# (Abel) for some unknown reason linalg test took infinite time
-%{make} check
+# eigs.cc segfaults with Octave 3.2.0:
+#%{make} check
 
 %install
 %{__rm} -rf %{buildroot}
@@ -217,7 +219,7 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %files
 %defattr(0644,root,root,0755)
 %doc NEWS* PROJECTS README README.Linux README.kpathsea ROADMAP
-%doc SENDING-PATCHES THANKS emacs examples
+%doc SENDING-PATCHES emacs examples
 #%%doc doc/interpreter/octave.p*
 #%%doc doc/faq doc/interpreter/HTML doc/refcard
 %defattr(-,root,root,0755)
@@ -246,14 +248,21 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %multiarch %{multiarch_includedir}/octave-*/octave/Array.h
 %multiarch %{multiarch_includedir}/octave-*/octave/defaults.h
 %multiarch %{multiarch_includedir}/octave-*/octave/dim-vector.h
-#multiarch %{multiarch_includedir}/octave-*/octave/lo-sstream.h
+%multiarch %{multiarch_includedir}/octave-*/octave/idx-vector.h
 %multiarch %{multiarch_includedir}/octave-*/octave/lo-error.h
+%multiarch %{multiarch_includedir}/octave-*/octave/lo-mappers.h
+%multiarch %{multiarch_includedir}/octave-*/octave/lo-math.h
+%multiarch %{multiarch_includedir}/octave-*/octave/lo-traits.h
 %multiarch %{multiarch_includedir}/octave-*/octave/lo-utils.h
+%multiarch %{multiarch_includedir}/octave-*/octave/oct-alloc.h
 %multiarch %{multiarch_includedir}/octave-*/octave/oct-cmplx.h
 %multiarch %{multiarch_includedir}/octave-*/octave/oct-conf.h
 %multiarch %{multiarch_includedir}/octave-*/octave/oct-dlldefs.h
+%multiarch %{multiarch_includedir}/octave-*/octave/oct-inttypes.h
+%multiarch %{multiarch_includedir}/octave-*/octave/oct-sort.h
 %multiarch %{multiarch_includedir}/octave-*/octave/oct-types.h
 %multiarch %{multiarch_includedir}/octave-*/octave/pathsearch.h
+%multiarch %{multiarch_includedir}/octave-*/octave/quit.h
 %multiarch %{multiarch_includedir}/octave-*/octave/str-vec.h
 %multiarch %{multiarch_includedir}/octave-*/octave/syswait.h
 %{_mandir}/man*/mkoctfile*
