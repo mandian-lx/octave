@@ -1,7 +1,7 @@
 %define octave_api api-v37
 
 Name:           octave
-Version:        3.2.0
+Version:        3.2.2
 Release:        %mkrel 1
 Epoch:          0
 Summary:        High-level language for numerical computations
