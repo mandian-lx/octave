@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.2.3
-Release:        %mkrel 1
+Release:        %mkrel 2
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPLv3+
