@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.2.3
-Release:        %mkrel 2
+Release:        %mkrel 3
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPLv3+
@@ -57,6 +57,8 @@ BuildRequires:  fltk-devel
 BuildRequires:	MesaGL-devel, MesaGLU-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
+Patch0:		octave-3.2.3-i586-hack.patch
+
 %description
 GNU Octave is a high-level language, primarily intended for numerical
 computations. It provides a convenient command line interface for
@@ -108,6 +110,10 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
+
+%ifarch %{ix86}
+%patch0 -p1
+%endif
 
 OCTAVE_API=`%{__sed} -nr 's/^#define OCTAVE_API_VERSION "(api-v[[:digit:]]+)"$/\1/p' src/version.h`
 test "x${OCTAVE_API}" = x%{octave_api} || exit 1
