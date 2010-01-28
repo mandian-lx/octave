@@ -1,8 +1,8 @@
 %define octave_api api-v37
 
 Name:           octave
-Version:        3.2.3
-Release:        %mkrel 5
+Version:        3.2.4
+Release:        %mkrel 1
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPLv3+
