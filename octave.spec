@@ -2,7 +2,7 @@
 
 Name:           octave
 Version:        3.2.4
-Release:        %mkrel 2
+Release:        %mkrel 3
 Epoch:          0
 Summary:        High-level language for numerical computations
 License:        GPLv3+
@@ -55,6 +55,8 @@ BuildRequires:	qrupdate-devel
 # (Lev) for new experimental plotting
 BuildRequires:  fltk-devel
 BuildRequires:	MesaGL-devel, MesaGLU-devel
+# to make imread more functional
+BuildRequires:  GraphicsMagick-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		octave-3.2.3-i586-hack.patch
