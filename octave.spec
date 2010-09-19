@@ -2,6 +2,7 @@
 
 Name:           octave
 Version:        3.2.4
+%define	subrel	1
 Release:        %mkrel 3
 Epoch:          0
 Summary:        High-level language for numerical computations
@@ -60,6 +61,7 @@ BuildRequires:  GraphicsMagick-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Patch0:		octave-3.2.3-i586-hack.patch
+Patch1:		octave-graphicsmagick-gnu.patch
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -113,9 +115,8 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 
-%ifarch %{ix86}
 %patch0 -p1
-%endif
+%patch1 -p1
 
 OCTAVE_API=`%{__sed} -nr 's/^#define OCTAVE_API_VERSION "(api-v[[:digit:]]+)"$/\1/p' src/version.h`
 test "x${OCTAVE_API}" = x%{octave_api} || exit 1
