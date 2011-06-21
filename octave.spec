@@ -8,7 +8,6 @@ Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
-Source4:	octave-2.1.36-emac.lisp
 Patch0:		octave-3.4.1-pthread-fix.patch
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
