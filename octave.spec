@@ -121,7 +121,6 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{make} OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
-%{_bindir}/emacs -batch -q -no-site-file -f batch-byte-compile %{name}.el
 
 %install
 %{__rm} -rf %{buildroot}
@@ -136,10 +135,6 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{__perl} -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
 
 %{_bindir}/find %{buildroot} -name "*.oct" -print0 | %{_bindir}/xargs -t -0 -r strip --strip-unneeded
-
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/emacs/site-start.d
-%{__cp} -a %{name}.elc %{buildroot}%{_sysconfdir}/emacs/site-start.d/%{name}.elc
-%{__cp} -a %{name}.el %{buildroot}%{_sysconfdir}/emacs/site-start.d/%{name}.el
 
 # prepare documentation
 %{__rm} -rf package-doc
