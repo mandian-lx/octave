@@ -113,7 +113,6 @@ This package contains documentation of Octave in various formats.
 %setup -q
 %patch0 -p0 
 
-%{__cp} -a %{SOURCE4} octave.el
 
 %build
 %define enable64 no
@@ -180,7 +179,6 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %{_mandir}/man*/octave*
 %{_infodir}/octave.info*
 %{_datadir}/applications/*
-%config(noreplace) %_sysconfdir/emacs/site-start.d/octave.el*
 
 %files devel
 %defattr(0644,root,root,0755)
