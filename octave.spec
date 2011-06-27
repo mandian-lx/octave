@@ -1,13 +1,13 @@
 %define octave_api api-v37
 
 Name:		octave
-Version:	3.4.1
+Version:	3.4.2
 Release:	%mkrel 1
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
-Source0:	ftp://ftp.octave.org/pub/octave/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch0:		octave-3.4.1-pthread-fix.patch
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
