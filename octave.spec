@@ -10,6 +10,7 @@ Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch0:		octave-3.4.1-pthread-fix.patch
 Patch1:		octave-3.4.2-libs.patch
+Patch2:		octave-3.4.2-curl.patch
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
 Provides:	octave3 = %{epoch}:%{version}-%{release}
@@ -114,6 +115,7 @@ This package contains documentation of Octave in various formats.
 %setup -q
 %patch0 -p0 
 %patch1 -p1
+%patch2 -p1
 
 
 %build
