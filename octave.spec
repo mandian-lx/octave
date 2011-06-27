@@ -9,6 +9,7 @@ License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch0:		octave-3.4.1-pthread-fix.patch
+Patch1:		octave-3.4.2-libs.patch
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
 Provides:	octave3 = %{epoch}:%{version}-%{release}
@@ -112,9 +113,11 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 %patch0 -p0 
+%patch1 -p1
 
 
 %build
+autoreconf
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{configure2_5x} --enable-dl --enable-shared --disable-static --enable-lite-kernel --enable-picky-flags --enable-64=%{enable64} --with-f77=gfortran 
@@ -166,8 +169,6 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %config(noreplace) /etc/ld.so.conf.d/*
 %{_libdir}/octave*
 %{_datadir}/octave
-%exclude %{_datadir}/octave/octave_packages
-%ghost %{_datadir}/octave/octave_packages
 %if "%{_libdir}" != "%{_libexecdir}"
 %{_libexecdir}/octave
 %endif
@@ -181,9 +182,8 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %defattr(-,root,root)
 %{_bindir}/mkoctfile*
 %{_includedir}/octave-%{version}
-%dir %{multiarch_includedir}/octave-*
-%multiarch %{multiarch_includedir}/octave-*/*
-%{_mandir}/man*/mkoctfile*
+%{multiarch_includedir}/octave-%{version}
+%{_mandir}/man1/mkoctfile.1*
 
 %files doc
 %defattr(0644,root,root,0755)
