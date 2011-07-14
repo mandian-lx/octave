@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	3.4.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
@@ -11,6 +11,18 @@ Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch0:		octave-3.4.1-pthread-fix.patch
 Patch1:		octave-3.4.2-libs.patch
 Patch2:		octave-3.4.2-curl.patch
+
+# This patch is required when installing all sagemath dependencies,
+# otherwise it will fail with a message like:
+#
+#	$ octave
+#	$ fatal: lo_ieee_init: floating point format is not IEEE!  Maybe DLAMCH is miscompiled, or you are using some strange system without IEEE floating point math?
+#
+# and, while the reason is clear (using x87 and 80 bits doubles) the
+# proper library/dependency causing it was not detected.
+# This is not an issue in x86_64 that uses sse2+
+Patch3:		octave-3.4.2-detect-i586-as-little-endian-ieee754.patch
+
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
 Provides:	octave3 = %{epoch}:%{version}-%{release}
@@ -117,6 +129,9 @@ This package contains documentation of Octave in various formats.
 %patch1 -p1
 %patch2 -p1
 
+%ifarch %{ix86}
+%patch3 -p1
+%endif
 
 %build
 autoreconf
