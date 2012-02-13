@@ -52,8 +52,7 @@ BuildRequires:	lapack-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel
 BuildRequires:	texinfo
-BuildRequires:	tetex-dvips
-BuildRequires:	tetex-latex
+BuildRequires:	texlive
 BuildRequires:	pcre-devel
 BuildRequires:	curl-devel
 # (Lev) needed to support sparse matrix functionality
