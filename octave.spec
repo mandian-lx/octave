@@ -69,9 +69,9 @@ BuildRequires:	qhull-devel
 BuildRequires:	qrupdate-devel
 # (Lev) for new experimental plotting
 BuildRequires:	fltk-devel
-BuildRequires:	MesaGL-devel, MesaGLU-devel
+BuildRequires:	mesagl-devel, mesaglu-devel
 # to make imread more functional
-BuildRequires:	GraphicsMagick-devel
+BuildRequires:	graphicsmagick-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}
 
 %description
