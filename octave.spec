@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	3.4.2
-Release:	4
+Release:	5
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
@@ -143,8 +143,7 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 	--enable-lite-kernel					\
 	--enable-picky-flags					\
 	--enable-64=%{enable64}					\
-	--with-f77=gfortran 					\
-	--with-qhull-includedir=%{_includedir}/libqhull
+	--with-f77=gfortran
 make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
