@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	3.4.2
-Release:	5
+Release:	6
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
@@ -24,15 +24,10 @@ Patch2:		octave-3.4.2-curl.patch
 Patch3:		octave-3.4.2-detect-i586-as-little-endian-ieee754.patch
 
 URL:		http://www.octave.org/
-Obsoletes:	octave3 < %{epoch}:%{version}-%{release}
-Provides:	octave3 = %{epoch}:%{version}-%{release}
+Obsoletes:	octave3 < %{EVRD}
+Provides:	octave3 = %{EVRD}
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
-Requires(post):	desktop-file-utils
-Requires(postun): desktop-file-utils
-Requires(post):	rpm-helper
-Requires(post): info-install
-Requires(preun): info-install
 BuildRequires:	bison
 BuildRequires:	blas-devel
 BuildRequires:	dejagnu
@@ -68,10 +63,10 @@ BuildRequires:	qhull-devel
 BuildRequires:	qrupdate-devel
 # (Lev) for new experimental plotting
 BuildRequires:	fltk-devel
-BuildRequires:	mesagl-devel, mesaglu-devel
+BuildRequires:	mesagl-devel
+BuildRequires:	mesaglu-devel
 # to make imread more functional
 BuildRequires:	graphicsmagick-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -91,9 +86,9 @@ C++, C, Fortran, or other languages.
 %package devel
 Summary:	Development headers and files for Octave
 Group:		Development/C
-Obsoletes:	octave3-devel < %{epoch}:%{version}-%{release}
-Provides:	octave3-devel = %{epoch}:%{version}-%{release}
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Obsoletes:	octave3-devel < %{EVRD}
+Provides:	octave3-devel = %{EVRD}
+Requires:	%{name} = %{EVRD}
 Requires:	blas-devel
 Requires:	fftw-devel
 Requires:	gcc-c++
@@ -101,7 +96,7 @@ Requires:	gcc-gfortran
 Requires:	hdf5-devel
 Requires:	lapack-devel
 Requires:	readline-devel
-Requires:zlib-devel
+Requires:	zlib-devel
 
 %description devel
 The octave-devel package contains files needed for developing
@@ -110,8 +105,6 @@ applications which use GNU Octave.
 %package doc
 Summary:	Documentation for Octave, a numerical computational language
 Group:		Sciences/Mathematics
-Requires(post):	info-install
-Requires(preun): info-install
 
 %description doc
 GNU Octave is a high-level language, primarily intended for numerical
@@ -124,7 +117,7 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch0 -p0 
+%patch0 -p0
 %patch1 -p1
 %patch2 -p1
 
@@ -149,39 +142,36 @@ make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 # emacs mode
 
 %install
-%{__rm} -rf %{buildroot}
-%{makeinstall_std}
+%__rm -rf %{buildroot}
+%makeinstall_std
 
 # Make library links
-%{__mkdir_p} %{buildroot}/etc/ld.so.conf.d
+%__mkdir_p %{buildroot}/etc/ld.so.conf.d
 /bin/echo "%{_libdir}/octave-%{version}" > %{buildroot}/etc/ld.so.conf.d/octave-%{_arch}.conf
 
 # Remove RPM_BUILD_ROOT from ls-R files
-%{__perl} -pi -e "s,%{buildroot},," %{buildroot}%{_libexecdir}/octave/ls-R
-%{__perl} -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
+%__perl -pi -e "s,%{buildroot},," %{buildroot}%{_libexecdir}/octave/ls-R
+%__perl -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
 
 %{_bindir}/find %{buildroot} -name "*.oct" -print0 | %{_bindir}/xargs -t -0 -r strip --strip-unneeded
 
 # prepare documentation
-%{__rm} -rf package-doc
-%{__mkdir_p} package-doc
+%__rm -rf package-doc
+%__mkdir_p package-doc
 
 # Create desktop file
-%{__rm} %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop
+%__rm %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop
 %{_bindir}/desktop-file-install --add-category Education --remove-category Development \
 	--dir %{buildroot}%{_datadir}/applications doc/icons/octave.desktop
 
 # Create directories for add-on packages
 HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
-%{__mkdir_p} %{buildroot}%{_libexecdir}/octave/site/oct/%{octave_api}/$HOST_TYPE
-%{__mkdir_p} %{buildroot}%{_libexecdir}/octave/site/oct/$HOST_TYPE
-%{__mkdir_p} %{buildroot}%{_datadir}/octave/packages
+%__mkdir_p %{buildroot}%{_libexecdir}/octave/site/oct/%{octave_api}/$HOST_TYPE
+%__mkdir_p %{buildroot}%{_libexecdir}/octave/site/oct/$HOST_TYPE
+%__mkdir_p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
 %multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(0644,root,root,0755)
@@ -201,8 +191,6 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 
 %files devel
 %defattr(0644,root,root,0755)
-#%%doc doc/liboctave
-%defattr(-,root,root)
 %{_bindir}/mkoctfile*
 %{_includedir}/octave-%{version}
 %{multiarch_includedir}/octave-%{version}
