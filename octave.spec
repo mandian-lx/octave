@@ -1,16 +1,13 @@
 %define octave_api api-v37
 
 Name:		octave
-Version:	3.4.2
-Release:	6
-Epoch:		0
+Version:	3.6.2
+Release:	1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
-Patch0:		octave-3.4.1-pthread-fix.patch
 Patch1:		octave-3.4.2-libs.patch
-Patch2:		octave-3.4.2-curl.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -117,9 +114,7 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch0 -p0
 %patch1 -p1
-%patch2 -p1
 
 %ifarch %{ix86}
 %patch3 -p1
@@ -191,7 +186,7 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 
 %files devel
 %defattr(0644,root,root,0755)
-%{_bindir}/mkoctfile*
+%attr(0755,root,root) %{_bindir}/mkoctfile*
 %{_includedir}/octave-%{version}
 %{multiarch_includedir}/octave-%{version}
 %{_mandir}/man1/mkoctfile.1*
