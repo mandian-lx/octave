@@ -1,13 +1,14 @@
 %define octave_api api-v37
 
 Name:		octave
-Version:	3.6.2
-Release:	1
+Version:	3.6.3
+Release:	3
+Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
-Patch1:		octave-3.4.2-libs.patch
+Patch1:		octave-3.6.3-libs.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -18,7 +19,7 @@ Patch1:		octave-3.4.2-libs.patch
 # and, while the reason is clear (using x87 and 80 bits doubles) the
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
-Patch3:		octave-3.4.2-detect-i586-as-little-endian-ieee754.patch
+Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
 
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{EVRD}
@@ -64,6 +65,9 @@ BuildRequires:	mesagl-devel
 BuildRequires:	mesaglu-devel
 # to make imread more functional
 BuildRequires:	graphicsmagick-devel
+BuildRequires:	pkgconfig(cairo)
+BuildRequires:	pkgconfig(pixman-1)
+
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -114,10 +118,10 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch1 -p1
+%patch1 -p0
 
 %ifarch %{ix86}
-%patch3 -p1
+%patch3 -p0
 %endif
 
 %build
@@ -137,7 +141,6 @@ make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 # emacs mode
 
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
 
 # Make library links
@@ -196,3 +199,4 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %doc doc/refcard/refcard-a4.pdf
 %{_infodir}/liboctave.*
 %{_infodir}/OctaveFAQ.*
+

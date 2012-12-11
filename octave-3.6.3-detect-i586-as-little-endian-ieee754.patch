@@ -1,6 +1,6 @@
---- octave-3.4.2/liboctave/mach-info.cc.orig	2011-07-14 15:57:43.573464558 -0300
-+++ octave-3.4.2/liboctave/mach-info.cc	2011-07-14 15:59:01.247897894 -0300
-@@ -124,7 +124,7 @@ get_float_format (void)
+--- liboctave/mach-info.cc.orig	2012-01-04 00:48:30.000000000 +0400
++++ liboctave/mach-info.cc	2012-10-15 15:58:49.108773481 +0400
+@@ -125,7 +125,7 @@
    int i = 0;
    do
      {

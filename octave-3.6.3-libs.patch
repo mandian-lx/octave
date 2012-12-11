@@ -1,6 +1,6 @@
---- octave-3.4.2/configure.ac.ori      2011-06-27 17:36:26.000000000 +0000
-+++ octave-3.4.2/configure.ac  2011-06-27 17:36:55.000000000 +0000
-@@ -312,7 +312,7 @@ AC_SUBST(DEPEND_EXTRA_SED_PATTERN)
+--- configure.ac.orig	2012-09-04 21:16:44.000000000 +0400
++++ configure.ac	2012-10-15 15:57:42.018592343 +0400
+@@ -330,7 +330,7 @@
  AX_PTHREAD
  ### Include pthread libs and flags here in case other tests need them.
  ### They seem to be required for the OpenGL tests on Debian systems.
