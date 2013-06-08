@@ -1,2 +1,4 @@
+removed_sources:
+  octave-3.6.3.tar.bz2: e8bd0c0b33ab9714ddb524f2258546c3536f0628
 sources:
-  "octave-3.6.3.tar.bz2": e8bd0c0b33ab9714ddb524f2258546c3536f0628
+  octave-3.6.4.tar.bz2: 3cc9366b6dbbd336eaf90fe70ad16e63705d82c4

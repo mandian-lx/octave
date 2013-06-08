@@ -1,8 +1,8 @@
 %define octave_api api-v37
 
 Name:		octave
-Version:	3.6.3
-Release:	4
+Version:	3.6.4
+Release:	1
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
@@ -120,7 +120,6 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 %patch1 -p0
-
 %ifarch %{ix86}
 %patch3 -p0
 %endif
@@ -129,6 +128,9 @@ This package contains documentation of Octave in various formats.
 %build
 autoreconf
 %define enable64 no
+# Check permissions
+find -name *.cc -exec chmod 644 {} \;
+export F77=gfortran
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{configure2_5x}						\
 	--enable-dl						\
