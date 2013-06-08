@@ -2,13 +2,14 @@
 
 Name:		octave
 Version:	3.6.3
-Release:	3
+Release:	4
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch1:		octave-3.6.3-libs.patch
+Patch2:		octave-3.6.3-texinfo_5.1.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -123,6 +124,7 @@ This package contains documentation of Octave in various formats.
 %ifarch %{ix86}
 %patch3 -p0
 %endif
+%patch2 -p1
 
 %build
 autoreconf
