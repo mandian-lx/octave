@@ -20,7 +20,7 @@ Patch2:		octave-3.6.3-texinfo_5.1.patch
 # and, while the reason is clear (using x87 and 80 bits doubles) the
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
-Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
+#Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
 
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{EVRD}
@@ -120,9 +120,9 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 %patch1 -p0
-%ifarch %{ix86}
-%patch3 -p0
-%endif
+#%ifarch %{ix86}
+#%patch3 -p0
+#%endif
 %patch2 -p1
 
 %build
