@@ -62,8 +62,8 @@ BuildRequires:	qhull-devel
 BuildRequires:	qrupdate-devel
 # (Lev) for new experimental plotting
 BuildRequires:	fltk-devel
-BuildRequires:	mesagl-devel
-BuildRequires:	mesaglu-devel
+BuildRequires:	pkgconfig(gl)
+BuildRequires:	pkgconfig(glu)
 # to make imread more functional
 BuildRequires:	graphicsmagick-devel
 BuildRequires:	pkgconfig(cairo)
