@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	3.6.3
-Release:	5
+Release:	6
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
@@ -120,12 +120,18 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 %patch1 -p0
-#%ifarch %{ix86}
-#%patch3 -p0
-#%endif
+#$ifarch ${ix86}
+#$patch3 -p0
+#$endif
 %patch2 -p1
 
 %build
+mkdir bin
+ln -sf %{_bindir}/ld.bfd bin/ld
+export PATH=$PWD/bin:$PATH
+export CFLAGS="%{optflags} -fuse-ld=bfd"
+export CXXFLAGS="%{optflags} -fuse-ld=bfd"
+
 autoreconf
 %define enable64 no
 # Check permissions
