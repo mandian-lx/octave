@@ -2,14 +2,13 @@
 
 Name:		octave
 Version:	3.6.3
-Release:	6
+Release:	5
 Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Patch1:		octave-3.6.3-libs.patch
-Patch2:		octave-3.6.3-texinfo_5.1.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -20,7 +19,7 @@ Patch2:		octave-3.6.3-texinfo_5.1.patch
 # and, while the reason is clear (using x87 and 80 bits doubles) the
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
-#Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
+Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
 
 URL:		http://www.octave.org/
 Obsoletes:	octave3 < %{EVRD}
@@ -120,23 +119,14 @@ This package contains documentation of Octave in various formats.
 %prep
 %setup -q
 %patch1 -p0
-#$ifarch ${ix86}
-#$patch3 -p0
-#$endif
-%patch2 -p1
+
+%ifarch %{ix86}
+%patch3 -p0
+%endif
 
 %build
-mkdir bin
-ln -sf %{_bindir}/ld.bfd bin/ld
-export PATH=$PWD/bin:$PATH
-export CFLAGS="%{optflags} -fuse-ld=bfd"
-export CXXFLAGS="%{optflags} -fuse-ld=bfd"
-
 autoreconf
 %define enable64 no
-# Check permissions
-find -name *.cc -exec chmod 644 {} \;
-export F77=gfortran
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %{configure2_5x}						\
 	--enable-dl						\
