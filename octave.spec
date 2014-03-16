@@ -8,6 +8,7 @@ Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
+Source100:	octave.rpmlintrc
 Patch1:		octave-3.6.3-libs.patch
 
 # This patch is required when installing all sagemath dependencies,
