@@ -2,10 +2,10 @@
 +++ configure.ac	2012-10-15 15:57:42.018592343 +0400
 @@ -330,7 +330,7 @@
  AX_PTHREAD
- ### Include pthread libs and flags here in case other tests need them.
- ### They seem to be required for the OpenGL tests on Debian systems.
+ ## Include pthread libs and flags early in case other tests need them.
+ ## They seem to be required for the OpenGL tests on Debian systems.
 -LIBS="$PTHREAD_LIBS $LIBS"
 +LIBS="$PTHREAD_LIBS $LIBS -lgfortran -llapack -lGLU -lGL -lpthread"
  CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+ CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
  
- AC_PATH_X
