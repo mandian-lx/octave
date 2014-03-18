@@ -1,4 +1,4 @@
-%define octave_api api-v37
+%define octave_api api-v49+
 
 Name:		octave
 Version:	3.8.1
@@ -163,10 +163,6 @@ make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 %{_bindir}/desktop-file-install --add-category Education --remove-category Development \
 	--dir %{buildroot}%{_datadir}/applications doc/icons/octave.desktop
 
-# Create directories for add-on packages
-HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
-%__mkdir_p %{buildroot}%{_libexecdir}/octave/site/oct/%{octave_api}/$HOST_TYPE
-%__mkdir_p %{buildroot}%{_libexecdir}/octave/site/oct/$HOST_TYPE
 %__mkdir_p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
