@@ -199,5 +199,4 @@ HOST_TYPE=`%{buildroot}%{_bindir}/octave-config -p CANONICAL_HOST_TYPE`
 %defattr(0644,root,root,0755)
 %doc doc/refcard/refcard-a4.pdf
 %{_infodir}/liboctave.*
-%{_infodir}/OctaveFAQ.*
 
