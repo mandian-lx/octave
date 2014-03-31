@@ -3,10 +3,10 @@
 Name:		octave
 Version:	3.8.1
 Release:	7
-Epoch:		0
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
+Url:		http://www.octave.org/
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
 Source100:	octave.rpmlintrc
 Patch1:		octave-3.6.3-libs.patch
@@ -21,34 +21,27 @@ Patch1:		octave-3.6.3-libs.patch
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
 Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
-
-URL:		http://www.octave.org/
-Obsoletes:	octave3 < %{EVRD}
-Provides:	octave3 = %{EVRD}
-Provides:	octave(api) = %{octave_api}
-Requires:	gnuplot
 BuildRequires:	bison
-BuildRequires:	blas-devel
 BuildRequires:	dejagnu
 BuildRequires:	desktop-file-utils
-BuildRequires:	emacs
-BuildRequires:	emacs-bin
-BuildRequires:	fftw-devel >= 0:3.0.1
+BuildRequires:	emacs-nox
 BuildRequires:	flex
 BuildRequires:	gcc-gfortran
-BuildRequires:	glpk-devel
 BuildRequires:	gnuplot
 # (Abel) not strictly needed, but play safe
 BuildRequires:	gperf
-BuildRequires:	hdf5-devel
-BuildRequires:	fontconfig-devel
-BuildRequires:	lapack-devel
-BuildRequires:	ncurses-devel
-BuildRequires:	readline-devel
 BuildRequires:	texinfo
-BuildRequires:	texlive
-BuildRequires:	pcre-devel
-BuildRequires:	curl-devel
+#BuildRequires:	texlive
+BuildRequires:	blas-devel
+BuildRequires:	glpk-devel
+BuildRequires:	hdf5-devel
+BuildRequires:	lapack-devel
+BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(fontconfig)
+BuildRequires:	pkgconfig(fftw3)
+BuildRequires:	pkgconfig(libpcre)
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(ncurses)
 # (Lev) needed to support sparse matrix functionality
 BuildRequires:	amd-devel
 BuildRequires:	camd-devel
@@ -65,10 +58,12 @@ BuildRequires:	fltk-devel
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glu)
 # to make imread more functional
-BuildRequires:	graphicsmagick-devel
 BuildRequires:	pkgconfig(cairo)
+BuildRequires:	pkgconfig(GraphicsMagick)
 BuildRequires:	pkgconfig(pixman-1)
-
+%rename	octave3
+Provides:	octave(api) = %{octave_api}
+Requires:	gnuplot
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -88,17 +83,10 @@ C++, C, Fortran, or other languages.
 %package devel
 Summary:	Development headers and files for Octave
 Group:		Development/C
-Obsoletes:	octave3-devel < %{EVRD}
-Provides:	octave3-devel = %{EVRD}
 Requires:	%{name} = %{EVRD}
-Requires:	blas-devel
-Requires:	fftw-devel
 Requires:	gcc-c++
 Requires:	gcc-gfortran
-Requires:	hdf5-devel
-Requires:	lapack-devel
-Requires:	readline-devel
-Requires:	zlib-devel
+%rename	octave3-devel
 
 %description devel
 The octave-devel package contains files needed for developing
@@ -124,19 +112,20 @@ This package contains documentation of Octave in various formats.
 %ifarch %{ix86}
 %patch3 -p0
 %endif
+autoreconf
 
 %build
-autoreconf
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
-%{configure2_5x}						\
-	--enable-dl						\
-	--enable-shared						\
-	--disable-static					\
-	--enable-lite-kernel					\
-	--enable-picky-flags					\
-	--enable-64=%{enable64}					\
+%configure2_5x \
+	--enable-dl \
+	--enable-shared \
+	--disable-static \
+	--enable-lite-kernel \
+	--enable-picky-flags \
+	--enable-64=%{enable64} \
 	--with-f77=gfortran
+
 make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
@@ -145,25 +134,25 @@ make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 %makeinstall_std
 
 # Make library links
-%__mkdir_p %{buildroot}/etc/ld.so.conf.d
+mkdir -p %{buildroot}/etc/ld.so.conf.d
 /bin/echo "%{_libdir}/octave-%{version}" > %{buildroot}/etc/ld.so.conf.d/octave-%{_arch}.conf
 
 # Remove RPM_BUILD_ROOT from ls-R files
-%__perl -pi -e "s,%{buildroot},," %{buildroot}%{_libexecdir}/octave/ls-R
-%__perl -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
+perl -pi -e "s,%{buildroot},," %{buildroot}%{_libexecdir}/octave/ls-R
+perl -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
 
 %{_bindir}/find %{buildroot} -name "*.oct" -print0 | %{_bindir}/xargs -t -0 -r strip --strip-unneeded
 
 # prepare documentation
 %__rm -rf package-doc
-%__mkdir_p package-doc
+mkdir -p package-doc
 
 # Create desktop file
-%__rm %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop
+rm -f %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop
 %{_bindir}/desktop-file-install --add-category Education --remove-category Development \
 	--dir %{buildroot}%{_datadir}/applications doc/icons/octave.desktop
 
-%__mkdir_p %{buildroot}%{_datadir}/octave/packages
+mkdir -p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
 %multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
