@@ -183,6 +183,7 @@ cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 %{_includedir}/octave-%{version}
 %{multiarch_includedir}/octave-%{version}
 %{_mandir}/man1/mkoctfile.1*
+%{_sysconfdir}/rpm/macros.d/%{name}.macros
 
 %files doc
 %defattr(0644,root,root,0755)
