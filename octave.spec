@@ -2,12 +2,13 @@
 
 Name:		octave
 Version:	3.8.1
-Release:	8
+Release:	9
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		http://www.octave.org/
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
+Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
 Patch1:		octave-3.6.3-libs.patch
 
@@ -156,6 +157,9 @@ mkdir -p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
 %multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
+
+mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d/
+cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 
 %files
 %defattr(0644,root,root,0755)
