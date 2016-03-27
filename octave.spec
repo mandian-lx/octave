@@ -1,4 +1,6 @@
 %define octave_api api-v50+
+%define _disable_rebuild_configure 1
+%define _disable_lto 1
 
 Name:		octave
 Version:	4.0.1
@@ -118,9 +120,11 @@ This package contains documentation of Octave in various formats.
 %ifarch %{ix86}
 %patch3 -p0
 %endif
-autoreconf
 
 %build
+export CC=gcc
+export CXX=g++
+
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 %configure2_5x \
