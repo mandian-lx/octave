@@ -1,4 +1,5 @@
 removed_sources:
   octave-3.6.3.tar.bz2: e8bd0c0b33ab9714ddb524f2258546c3536f0628
-sources:
   octave-3.8.1.tar.bz2: 2951aeafe58d562672feb80dd8c3cfe0643a5087
+sources:
+  octave-4.0.1.tar.xz: 76b531063e37df13fdbe3467a6e3c14dce364d9e

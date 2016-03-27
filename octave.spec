@@ -1,16 +1,15 @@
-%define octave_api api-v49+
+%define octave_api api-v50+
 
 Name:		octave
-Version:	3.8.1
-Release:	10
+Version:	4.0.1
+Release:	1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		http://www.octave.org/
-Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.xz
 Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
-Patch1:		octave-3.6.3-libs.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -45,7 +44,7 @@ BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(ncurses)
 # (Lev) needed to support sparse matrix functionality
 BuildRequires:	amd-devel
-BuildRequires:	camd-devel
+BuildRequires:	suitesparse-devel
 BuildRequires:	ccolamd-devel
 BuildRequires:	cholmod-devel
 BuildRequires:	colamd-devel
@@ -62,6 +61,13 @@ BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(GraphicsMagick)
 BuildRequires:	pkgconfig(pixman-1)
+# gui
+BuildRequires:  pkgconfig(QtCore)
+BuildRequires:  pkgconfig(QtGui)
+BuildRequires:  pkgconfig(QtNetwork)
+BuildRequires:  pkgconfig(QtOpenGL)
+BuildRequires:  qscintilla-qt4-devel
+
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
@@ -108,7 +114,6 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%patch1 -p0
 
 %ifarch %{ix86}
 %patch3 -p0
@@ -125,7 +130,10 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 	--enable-lite-kernel \
 	--enable-picky-flags \
 	--enable-64=%{enable64} \
-	--with-f77=gfortran
+        --with-amd="-lamd -lsuitesparseconfig" \
+        --with-camd="-lcamd -lsuitesparseconfig" \
+        --with-colamd="-lcolamd -lsuitesparseconfig" \
+        --with-ccolamd="-lccolamd -lsuitesparseconfig"
 
 make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
@@ -149,9 +157,10 @@ perl -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
 mkdir -p package-doc
 
 # Create desktop file
-rm -f %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop
+mv %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop \
+        %{buildroot}%{_datadir}/applications/octave.desktop
 %{_bindir}/desktop-file-install --add-category Education --remove-category Development \
-	--dir %{buildroot}%{_datadir}/applications doc/icons/octave.desktop
+        --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/octave.desktop
 
 mkdir -p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
@@ -170,6 +179,9 @@ cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 %config(noreplace) /etc/ld.so.conf.d/*
 %{_libdir}/octave*
 %{_datadir}/octave
+%{_datadir}/appdata/www.octave.org-octave.appdata.xml
+%{_datadir}/icons/*/*/apps/octave.png
+%{_datadir}/icons/*/*/apps/octave.svg
 %if "%{_libdir}" != "%{_libexecdir}"
 %{_libexecdir}/octave
 %endif
