@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	4.0.1
-Release:	1
+Release:	0.1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -44,7 +44,7 @@ BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(ncurses)
 # (Lev) needed to support sparse matrix functionality
 BuildRequires:	amd-devel
-BuildRequires:	suitesparse-devel
+BuildRequires:	camd-devel
 BuildRequires:	ccolamd-devel
 BuildRequires:	cholmod-devel
 BuildRequires:	colamd-devel
