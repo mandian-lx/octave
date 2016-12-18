@@ -3,13 +3,13 @@
 %define _disable_lto 1
 
 Name:		octave
-Version:	4.0.1
+Version:	4.2.0
 Release:	1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		http://www.octave.org/
-Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.xz
+Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.lz
 Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
 
