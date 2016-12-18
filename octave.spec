@@ -118,7 +118,7 @@ This package contains documentation of Octave in various formats.
 %setup -q
 
 %ifarch %{ix86}
-%patch3 -p0
+%patch3 -p1
 %endif
 
 %build
