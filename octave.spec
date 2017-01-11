@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	2
+Release:	3
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -39,6 +39,7 @@ BuildRequires:	glpk-devel
 BuildRequires:	hdf5-devel
 BuildRequires:	lapack-devel
 BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(arpack)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(libpcre)
@@ -69,11 +70,12 @@ BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5OpenGL)
 BuildRequires:  qscintilla-qt5-devel
+BuildRequires:	qt5-linguist-tools
 BuildRequires:	portaudio-devel
 BuildRequires:	sndfile-devel
 BuildRequires:	gl2ps-devel
 BuildRequires:	pkgconfig(osmesa)
-
+BuildRequires:	ghostscript-devel
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
@@ -135,8 +137,6 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 	--enable-dl \
 	--enable-shared \
 	--disable-static \
-	--enable-lite-kernel \
-	--enable-picky-flags \
 	--enable-64=%{enable64} \
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
