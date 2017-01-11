@@ -1,13 +1,13 @@
 %define octave_api api-v50+
 
 Name:		octave
-Version:	4.0.1
+Version:	4.2.0
 Release:	0.1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		http://www.octave.org/
-Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.xz
+Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.lz
 Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
 
@@ -37,6 +37,7 @@ BuildRequires:	glpk-devel
 BuildRequires:	hdf5-devel
 BuildRequires:	lapack-devel
 BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(arpack)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(libpcre)
@@ -67,10 +68,16 @@ BuildRequires:  pkgconfig(QtGui)
 BuildRequires:  pkgconfig(QtNetwork)
 BuildRequires:  pkgconfig(QtOpenGL)
 BuildRequires:  qscintilla-qt4-devel
-
+BuildRequires:	portaudio-devel
+BuildRequires:	sndfile-devel
+BuildRequires:	gl2ps-devel
+BuildRequires:	pkgconfig(osmesa)
+BuildRequires:	ghostscript-devel
+BuildRequires:	java-1.7.0-openjdk-devel
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
+Requires:	java-1.7.0-headless
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -116,26 +123,29 @@ This package contains documentation of Octave in various formats.
 %setup -q
 
 %ifarch %{ix86}
-%patch3 -p0
+%patch3 -p1
 %endif
-autoreconf
 
 %build
+export CC=gcc
+export CXX=g++
+
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
+# find lrelease
+export PATH=%_libdir/qt5/bin:$PATH
 %configure2_5x \
 	--enable-dl \
 	--enable-shared \
 	--disable-static \
-	--enable-lite-kernel \
-	--enable-picky-flags \
 	--enable-64=%{enable64} \
+	--with-qt=5 \
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
         --with-ccolamd="-lccolamd -lsuitesparseconfig"
 
-make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
+%make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
 

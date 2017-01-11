@@ -1,11 +1,11 @@
---- liboctave/system/mach-info.cc.orig	2012-01-04 00:48:30.000000000 +0400
-+++ liboctave/system/mach-info.cc	2012-10-15 15:58:49.108773481 +0400
-@@ -125,7 +125,7 @@
-   int i = 0;
-   do
-     {
--      if (equiv_compare (fp[i].fp_par, mach_fp_par, 4))
-+      if (equiv_compare (fp[i].fp_par, mach_fp_par, 2))
-         {
-           retval = fp[i].fp_fmt;
-           break;
+--- octave-4.2.0/liboctave/system/mach-info.cc.orig	2016-12-18 00:40:31.549501668 +0000
++++ octave-4.2.0/liboctave/system/mach-info.cc	2016-12-18 00:40:37.220301202 +0000
+@@ -107,7 +107,7 @@
+     int i = 0;
+     do
+       {
+-        if (equiv_compare (fp[i].fp_par, mach_fp_par, 4))
++        if (equiv_compare (fp[i].fp_par, mach_fp_par, 2))
+           {
+             retval = fp[i].fp_fmt;
+             break;
