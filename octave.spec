@@ -74,6 +74,7 @@ BuildRequires:	gl2ps-devel
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	ghostscript-devel
 BuildRequires:	java-1.7.0-openjdk-devel
+BuildRequires:	lzip
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
