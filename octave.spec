@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	1
+Release:	2
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -64,11 +64,15 @@ BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(GraphicsMagick)
 BuildRequires:	pkgconfig(pixman-1)
 # gui
-BuildRequires:  pkgconfig(QtCore)
-BuildRequires:  pkgconfig(QtGui)
-BuildRequires:  pkgconfig(QtNetwork)
-BuildRequires:  pkgconfig(QtOpenGL)
-BuildRequires:  qscintilla-qt4-devel
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5OpenGL)
+BuildRequires:  qscintilla-qt5-devel
+BuildRequires:	portaudio-devel
+BuildRequires:	sndfile-devel
+BuildRequires:	gl2ps-devel
+BuildRequires:	pkgconfig(osmesa)
 
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
