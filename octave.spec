@@ -69,8 +69,6 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5OpenGL)
-BuildRequires:	qtchooser
-BuildRequires:	qt5-qtchooser
 BuildRequires:  qscintilla-qt5-devel
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	portaudio-devel
@@ -78,9 +76,11 @@ BuildRequires:	sndfile-devel
 BuildRequires:	gl2ps-devel
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	ghostscript-devel
+BuildRequires:	java-1.8.0-openjdk-devel
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
+Requires:	java-1.8.0-headless
 
 %description
 GNU Octave is a high-level language, primarily intended for numerical
@@ -135,6 +135,8 @@ export CXX=g++
 
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
+# find lrelease
+export PATH=%_libdir/qt5/bin:$PATH
 %configure2_5x \
 	--enable-dl \
 	--enable-shared \
@@ -146,7 +148,7 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
         --with-colamd="-lcolamd -lsuitesparseconfig" \
         --with-ccolamd="-lccolamd -lsuitesparseconfig"
 
-make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
+%make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
 
