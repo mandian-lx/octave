@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	3
+Release:	4
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -69,6 +69,8 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Gui)
 BuildRequires:  pkgconfig(Qt5Network)
 BuildRequires:  pkgconfig(Qt5OpenGL)
+BuildRequires:	qtchooser
+BuildRequires:	qt5-qtchooser
 BuildRequires:  qscintilla-qt5-devel
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	portaudio-devel
@@ -138,6 +140,7 @@ export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 	--enable-shared \
 	--disable-static \
 	--enable-64=%{enable64} \
+	--with-qt=5 \
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
