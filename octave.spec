@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	0.1
+Release:	0.2
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -140,7 +140,7 @@ export PATH=%_libdir/qt5/bin:$PATH
 	--enable-shared \
 	--disable-static \
 	--enable-64=%{enable64} \
-	--with-qt=5 \
+	--with-qt=4 \
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
