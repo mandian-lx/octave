@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	4
+Release:	5
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -12,6 +12,9 @@ Url:		http://www.octave.org/
 Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.lz
 Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
+
+# fix usage of bsdtar with unpack
+Patch1:		octave-4.2.0-bsdtar.patch
 
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
@@ -124,7 +127,7 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-
+%patch1 -p1
 %ifarch %{ix86}
 %patch3 -p1
 %endif
