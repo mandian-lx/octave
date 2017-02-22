@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	6
+Release:	7
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -106,6 +106,18 @@ Group:		Development/C
 Requires:	%{name} = %{EVRD}
 Requires:	gcc-c++
 Requires:	gcc-gfortran
+Requires:	gl2ps-devel
+Requires:	suitesparse-devel
+Requires:	lapack-devel
+Requires:	readline-devel
+Requires:	pkgconfig(arpack)
+Requires:	pkgconfig(fontconfig)
+Requires:	pkgconfig(fftw3)
+Requires:	pkgconfig(libpcre)
+Requires:	pkgconfig(libcurl)
+Requires:	blas-devel
+Requires:	pkgconfig(GraphicsMagick)
+
 %rename	octave3-devel
 
 %description devel
