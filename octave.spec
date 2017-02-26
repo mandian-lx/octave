@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.0
-Release:	8
+Release:	9
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -119,7 +119,9 @@ Requires:	blas-devel
 Requires:	pkgconfig(GraphicsMagick)
 Requires:	hdf5-devel
 Requires:	qrupdate-devel
-
+Requires:	texinfo
+Requires:	pkgconfig(gl)
+Requires:	pkgconfig(glu)
 %rename	octave3-devel
 
 %description devel
