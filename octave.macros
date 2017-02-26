@@ -9,6 +9,7 @@
 %octarchprefix %{_libdir}/octave/packages
 %octpkgdir %{octprefix}/%{octpkg}-%{version}
 %octpkglibdir %{octarchprefix}/%{octpkg}-%{version}
+%octhost %(octave-config -p CANONICAL_HOST_TYPE || echo 0)
 
 # Run an octave command - quietly with no startup files
 %octave_cmd() octave -H -q --no-window-system --no-site-file --eval "%*";
@@ -26,7 +27,7 @@
   -- print(rpm.expand("%octave_cmd pkg build -verbose -nodeps %{_builddir}/%{buildsubdir} "..octpkg_tarfile).."\\n")
   print(rpm.expand("octave -H -q --no-window-system --no-site-file --eval 'pkg build -verbose -nodeps %{_builddir}/%{buildsubdir} "..octpkg_tarfile).."'\\n")
   -- Extract the build tarball for debuginfo generation
-  print(rpm.expand("tar xf %{octpkg}-%{version}-%{_arch}-mandriva-linux-gnu-%{octave_api}.tar.gz\\n"))
+  print(rpm.expand("tar xf %{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz\\n"))
 }
 
 # Install a package.  We use the octave pkg install command to install the
@@ -36,7 +37,7 @@
 mkdir -p %{buildroot}/%{octprefix} \
 mkdir -p %{buildroot}/%{octarchprefix} \
 mkdir -p %{buildroot}%{octpkgdir}/packinfo \
-%octave_cmd warning('off','all');pkg('prefix','%{buildroot}/%{octprefix}','%{buildroot}/%{octarchprefix}');pkg('global_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('local_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('install','-nodeps','-verbose','%{_tmppath}/%{octpkg}-%{version}-%{_arch}-mandriva-linux-gnu-%{octave_api}.tar.gz');unlink(pkg('local_list'));unlink(pkg('global_list')); \
+%octave_cmd warning('off','all');pkg('prefix','%{buildroot}/%{octprefix}','%{buildroot}/%{octarchprefix}');pkg('global_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('local_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('install','-nodeps','-verbose','%{_tmppath}/%{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz');unlink(pkg('local_list'));unlink(pkg('global_list')); \
 if [ -e %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m ] \
 then \
     mv %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m.orig \
