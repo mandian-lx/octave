@@ -1,10 +1,10 @@
-%define octave_api api-v50+
+%define octave_api api-v51
 %define _disable_rebuild_configure 1
 %define _disable_lto 1
 
 Name:		octave
-Version:	4.2.0
-Release:	10
+Version:	4.2.1
+Release:	1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics

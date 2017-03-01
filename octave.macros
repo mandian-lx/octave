@@ -12,7 +12,7 @@
 %octhost %(octave-config -p CANONICAL_HOST_TYPE || echo 0)
 
 # Run an octave command - quietly with no startup files
-%octave_cmd() octave -H -q --no-window-system --no-site-file --eval "%*";
+%octave_cmd() octave -H -q --no-window-system --no-site-file --eval '%*';
 
 # Build unpacked source directory into a package tar file in a temporary location
 #octave_pkg_build %octave_cmd pkg build '-verbose' '-nodeps' %{_tmppath}/%{name}-%{version}-%{release}.%{_arch} %{_builddir}/%{buildsubdir}
@@ -36,8 +36,7 @@
 %octave_pkg_install \
 mkdir -p %{buildroot}/%{octprefix} \
 mkdir -p %{buildroot}/%{octarchprefix} \
-mkdir -p %{buildroot}%{octpkgdir}/packinfo \
-%octave_cmd warning('off','all');pkg('prefix','%{buildroot}/%{octprefix}','%{buildroot}/%{octarchprefix}');pkg('global_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('local_list',fullfile('%{buildroot}/%{octshareprefix}','octave_packages'));pkg('install','-nodeps','-verbose','%{_tmppath}/%{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz');unlink(pkg('local_list'));unlink(pkg('global_list')); \
+%octave_cmd pkg("prefix","%{buildroot}/%{octprefix}","%{buildroot}/%{octarchprefix}");pkg("global_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("local_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("install","-nodeps","-verbose","%{_builddir}/%{buildsubdir}/%{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz");unlink(pkg("local_list"));unlink(pkg("global_list")); \
 if [ -e %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m ] \
 then \
     mv %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m.orig \
@@ -54,6 +53,6 @@ rm %{octpkgdir}/packinfo/on_uninstall.m \
 if [ -e %{octpkgdir}/packinfo/on_uninstall.m.orig ]; then \
   mv %{octpkgdir}/packinfo/on_uninstall.m.orig %{octpkgdir}/packinfo/on_uninstall.m \
   cd %{octpkgdir}/packinfo \
-  %octave_cmd l=pkg('list');on_uninstall(l{cellfun(@(x)strcmp(x.name,'%{octpkg}'),l)}); \
+  %octave_cmd l=pkg("list");on_uninstall(l{cellfun(@(x)strcmp(x.name,"%{octpkg}"),l)}); \
 fi \
 %{nil}
