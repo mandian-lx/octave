@@ -26,8 +26,14 @@
   end
   -- print(rpm.expand("%octave_cmd pkg build -verbose -nodeps %{_builddir}/%{buildsubdir} "..octpkg_tarfile).."\\n")
   print(rpm.expand("octave -H -q --no-window-system --no-site-file --eval 'pkg build -verbose -nodeps %{_builddir}/%{buildsubdir} "..octpkg_tarfile).."'\\n")
+  -- Define %octave_tar_suffix according to arch
+  if (rpm.expand("%{?buildarch}") ~= "noarch") then
+    rpm.define("octave_tar_suffix %{octhost}-%{octave_api}")
+  else
+    rpm.define("octave_tar_suffix any-none")
+  end
   -- Extract the build tarball for debuginfo generation
-  print(rpm.expand("tar xf %{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz\\n"))
+  print(rpm.expand("tar xf %{octpkg}-%{version}-%{octave_tar_suffix}.tar.gz\\n"))
 }
 
 # Install a package.  We use the octave pkg install command to install the
@@ -36,7 +42,7 @@
 %octave_pkg_install \
 mkdir -p %{buildroot}/%{octprefix} \
 mkdir -p %{buildroot}/%{octarchprefix} \
-%octave_cmd pkg("prefix","%{buildroot}/%{octprefix}","%{buildroot}/%{octarchprefix}");pkg("global_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("local_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("install","-nodeps","-verbose","%{_builddir}/%{buildsubdir}/%{octpkg}-%{version}-%{octhost}-%{octave_api}.tar.gz");unlink(pkg("local_list"));unlink(pkg("global_list")); \
+%octave_cmd pkg("prefix","%{buildroot}/%{octprefix}","%{buildroot}/%{octarchprefix}");pkg("global_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("local_list",fullfile("%{buildroot}/%{octshareprefix}","octave_packages"));pkg("install","-nodeps","-verbose","%{_builddir}/%{buildsubdir}/%{octpkg}-%{version}-%{octave_tar_suffix}.tar.gz");unlink(pkg("local_list"));unlink(pkg("global_list")); \
 if [ -e %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m ] \
 then \
     mv %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m %{buildroot}%{octpkgdir}/packinfo/on_uninstall.m.orig \
