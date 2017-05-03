@@ -1,8 +1,8 @@
-%define octave_api api-v50+
+%define octave_api api-v51
 
 Name:		octave
-Version:	4.2.0
-Release:	0.2
+Version:	4.2.1
+Release:	0.1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -101,6 +101,22 @@ Group:		Development/C
 Requires:	%{name} = %{EVRD}
 Requires:	gcc-c++
 Requires:	gcc-gfortran
+Requires:	gl2ps-devel
+Requires:	camd-devel
+Requires:	lapack-devel
+Requires:	readline-devel
+Requires:	pkgconfig(arpack)
+Requires:	pkgconfig(fontconfig)
+Requires:	pkgconfig(fftw3)
+Requires:	pkgconfig(libpcre)
+Requires:	pkgconfig(libcurl)
+Requires:	blas-devel
+Requires:	pkgconfig(GraphicsMagick)
+Requires:	hdf5-devel
+Requires:	qrupdate-devel
+Requires:	texinfo
+Requires:	pkgconfig(gl)
+Requires:	pkgconfig(glu)
 %rename	octave3-devel
 
 %description devel
@@ -122,7 +138,6 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-
 %ifarch %{ix86}
 %patch3 -p1
 %endif
