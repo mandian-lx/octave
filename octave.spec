@@ -200,7 +200,7 @@ mv %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop \
 mkdir -p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
-%multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
+#% multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
 
 mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d/
 cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
@@ -228,7 +228,7 @@ cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 %defattr(0644,root,root,0755)
 %attr(0755,root,root) %{_bindir}/mkoctfile*
 %{_includedir}/octave-%{version}
-%{multiarch_includedir}/octave-%{version}
+#% {multiarch_includedir}/octave-%{version}
 %{_mandir}/man1/mkoctfile.1*
 %{_sysconfdir}/rpm/macros.d/%{name}.macros
 
