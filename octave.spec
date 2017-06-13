@@ -37,12 +37,13 @@ BuildRequires:	gnuplot
 BuildRequires:	gperf
 BuildRequires:	texinfo
 #BuildRequires:	texlive
-BuildRequires:	blas-devel
+#BuildRequires:	blas-devel
 BuildRequires:	glpk-devel
 BuildRequires:	hdf5-devel
-BuildRequires:	lapack-devel
+#BuildRequires:	lapack-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(arpack)
+BuildRequires:	pkgconfig(atlas)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(libpcre)
@@ -165,8 +166,10 @@ export PATH=%_libdir/qt5/bin:$PATH
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
-        --with-ccolamd="-lccolamd -lsuitesparseconfig"
-
+        --with-ccolamd="-lccolamd -lsuitesparseconfig" \
+        --with-blas="-L%{_libdir}/atlas -ltatlas" \
+        --with-lapack="-L%{_libdir}/atlas -ltatlas" \
+	%{nil}
 %make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
 # emacs mode
