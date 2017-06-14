@@ -2,7 +2,7 @@
 
 Name:		octave
 Version:	4.2.1
-Release:	0.1
+Release:	0.2
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
@@ -32,12 +32,11 @@ BuildRequires:	gnuplot
 BuildRequires:	gperf
 BuildRequires:	texinfo
 #BuildRequires:	texlive
-BuildRequires:	blas-devel
 BuildRequires:	glpk-devel
 BuildRequires:	hdf5-devel
-BuildRequires:	lapack-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(arpack)
+BuildRequires:	pkgconfig(atlas)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(libpcre)
@@ -103,14 +102,12 @@ Requires:	gcc-c++
 Requires:	gcc-gfortran
 Requires:	gl2ps-devel
 Requires:	camd-devel
-Requires:	lapack-devel
 Requires:	readline-devel
 Requires:	pkgconfig(arpack)
 Requires:	pkgconfig(fontconfig)
 Requires:	pkgconfig(fftw3)
 Requires:	pkgconfig(libpcre)
 Requires:	pkgconfig(libcurl)
-Requires:	blas-devel
 Requires:	pkgconfig(GraphicsMagick)
 Requires:	hdf5-devel
 Requires:	qrupdate-devel
@@ -159,7 +156,10 @@ export PATH=%_libdir/qt5/bin:$PATH
         --with-amd="-lamd -lsuitesparseconfig" \
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
-        --with-ccolamd="-lccolamd -lsuitesparseconfig"
+        --with-ccolamd="-lccolamd -lsuitesparseconfig" \
+        --with-blas="-L%{_libdir}/atlas -ltatlas" \
+        --with-lapack="-L%{_libdir}/atlas -ltatlas" \
+        %{nil}
 
 %make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
