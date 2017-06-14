@@ -37,10 +37,8 @@ BuildRequires:	gnuplot
 BuildRequires:	gperf
 BuildRequires:	texinfo
 #BuildRequires:	texlive
-#BuildRequires:	blas-devel
 BuildRequires:	glpk-devel
 BuildRequires:	hdf5-devel
-#BuildRequires:	lapack-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(arpack)
 BuildRequires:	pkgconfig(atlas)
@@ -109,14 +107,12 @@ Requires:	gcc-c++
 Requires:	gcc-gfortran
 Requires:	gl2ps-devel
 Requires:	suitesparse-devel
-Requires:	lapack-devel
 Requires:	readline-devel
 Requires:	pkgconfig(arpack)
 Requires:	pkgconfig(fontconfig)
 Requires:	pkgconfig(fftw3)
 Requires:	pkgconfig(libpcre)
 Requires:	pkgconfig(libcurl)
-Requires:	blas-devel
 Requires:	pkgconfig(GraphicsMagick)
 Requires:	hdf5-devel
 Requires:	qrupdate-devel
