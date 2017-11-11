@@ -4,7 +4,7 @@
 
 Name:		octave
 Version:	4.2.1
-Release:	3
+Release:	4
 Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
