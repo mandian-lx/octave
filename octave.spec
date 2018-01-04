@@ -155,12 +155,13 @@ This package contains documentation of Octave in various formats.
 %build
 export CC=gcc
 export CXX=g++
+export JAVA_HOME=/usr/lib/jvm/java
 
 %define enable64 no
 export CPPFLAGS="%{optflags} -DH5_USE_16_API"
 # find lrelease
 export PATH=%_libdir/qt5/bin:$PATH
-%configure2_5x \
+%configure \
 	--enable-dl \
 	--enable-shared \
 	--disable-static \
