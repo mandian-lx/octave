@@ -81,6 +81,9 @@ BuildRequires:	ghostscript-devel
 BuildRequires:	java-1.8.0-openjdk-devel
 BuildRequires:	less
 BuildRequires:	icoutils
+BuildRequires:	qt5-linguist-tools
+BuildRequires:	qt5-qtbase-devel
+BuildRequires:	qt5-devel
 #% rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
