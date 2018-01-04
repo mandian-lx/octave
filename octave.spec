@@ -9,7 +9,7 @@ Summary:	High-level language for numerical computations
 License:	GPLv3+
 Group:		Sciences/Mathematics
 Url:		https://www.gnu.org/software/%{name}/
-Source0:	ftp://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.lz
+Source0:	https://ftp.gnu.org/gnu/octave/%{name}-%{version}.tar.lz
 Source99:       %{name}.macros
 Source100:	octave.rpmlintrc
 
