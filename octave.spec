@@ -126,7 +126,7 @@ Requires:	qrupdate-devel
 Requires:	texinfo
 Requires:	pkgconfig(gl)
 Requires:	pkgconfig(glu)
-%rename	octave3-devel
+#% rename	octave3-devel
 
 %description devel
 The octave-devel package contains files needed for developing
