@@ -42,6 +42,8 @@ BuildRequires:	hdf5-devel
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(arpack)
 BuildRequires:	pkgconfig(atlas)
+BuildRequires:	pkgconfig(lapack)
+BuildRequires:	pkgconfig(blas)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(libpcre)
@@ -171,8 +173,8 @@ export PATH=%_libdir/qt5/bin:$PATH
         --with-camd="-lcamd -lsuitesparseconfig" \
         --with-colamd="-lcolamd -lsuitesparseconfig" \
         --with-ccolamd="-lccolamd -lsuitesparseconfig" \
-        --with-blas="-L%{_libdir}/atlas -ltatlas" \
-        --with-lapack="-L%{_libdir}/atlas -ltatlas" \
+        --with-blas="-L%{_libdir}/blas -lblas" \
+        --with-lapack="-L%{_libdir}/lapack -llapack" \
 	%{nil}
 %make OCTAVE_RELEASE="%{distribution} %{version}-%{release}"
 
