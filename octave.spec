@@ -81,6 +81,7 @@ BuildRequires:	ghostscript-devel
 BuildRequires:	java-1.8.0-openjdk-devel
 BuildRequires:	less
 BuildRequires:	icoutils
+BuildRequires:	librsvg
 %rename	octave3
 Provides:	octave(api) = %{octave_api}
 Requires:	gnuplot
