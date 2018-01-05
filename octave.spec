@@ -15,7 +15,6 @@ Source100:	octave.rpmlintrc
 
 # fix usage of bsdtar with unpack
 Patch1:		octave-4.2.0-bsdtar.patch
-
 # This patch is required when installing all sagemath dependencies,
 # otherwise it will fail with a message like:
 #
@@ -26,6 +25,15 @@ Patch1:		octave-4.2.0-bsdtar.patch
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
 Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
+
+# fix crash on exit
+# (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/16fae04366b2)
+Patch100:	%{name}-4.2.1-fix-crash-on-exit.patch
+
+# force to use QOpenGLWidget over QGLWidget (workaroun for qt5)
+# (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/59cdf06c940e)
+Patch101:	%{name}-4.2.1-force-QOpenGLWidget.patch
+
 BuildRequires:	bison
 BuildRequires:	dejagnu
 BuildRequires:	desktop-file-utils
@@ -151,6 +159,8 @@ This package contains documentation of Octave in various formats.
 %ifarch %{ix86}
 %patch3 -p1
 %endif
+%patch100 -p1
+%patch101 -p1
 
 %build
 export CC=gcc
