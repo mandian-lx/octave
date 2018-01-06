@@ -15,7 +15,7 @@ diff --git a/libgui/graphics/GLCanvas.cc b/libgui/graphics/GLCanvas.cc
 --- a/libgui/graphics/GLCanvas.cc
 +++ b/libgui/graphics/GLCanvas.cc
 @@ -32,18 +32,22 @@
- 
+
  namespace QtHandles
  {
 +#if defined (HAVE_QOPENGLWIDGET)
@@ -30,8 +30,8 @@ diff --git a/libgui/graphics/GLCanvas.cc b/libgui/graphics/GLCanvas.cc
 +  QGLFormat (QGL::SampleBuffers | QGL::AlphaChannel),
 +#  endif
 +#endif
- 
-   GLCanvas::GLCanvas (QWidget *xparent, const graphics_handle& gh)
+
+   GLCanvas::GLCanvas (QWidget* xparent, const graphics_handle& gh)
 -#if defined (Q_OS_WIN32)
 -    : QGLWidget (QGLFormat (QGL::SampleBuffers | QGL::AlphaChannel |
 -                            QGL::IndirectRendering),
@@ -45,23 +45,23 @@ diff --git a/libgui/graphics/GLCanvas.cc b/libgui/graphics/GLCanvas.cc
 -#endif
    {
      setFocusPolicy (Qt::ClickFocus);
-     setFocus ();
+     setFocus();
 @@ -204,14 +208,14 @@
-   GLCanvas::keyPressEvent (QKeyEvent *xevent)
+   GLCanvas::keyPressEvent (QKeyEvent* xevent)
    {
      if (! canvasKeyPressEvent (xevent))
 -      QGLWidget::keyPressEvent (xevent);
-+      OCTAVE_QT_OPENGL_WIDGET::keyPressEvent (xevent);
++      QGLWidget::keyPressEvent (xevent);
    }
- 
+
    void
-   GLCanvas::keyReleaseEvent (QKeyEvent *xevent)
+   GLCanvas::keyReleaseEvent (QKeyEvent* xevent)
    {
      if (! canvasKeyReleaseEvent (xevent))
 -      QGLWidget::keyReleaseEvent (xevent);
 +      OCTAVE_QT_OPENGL_WIDGET::keyReleaseEvent (xevent);
    }
- 
+
  }
 diff --git a/libgui/graphics/GLCanvas.h b/libgui/graphics/GLCanvas.h
 --- a/libgui/graphics/GLCanvas.h
@@ -69,7 +69,7 @@ diff --git a/libgui/graphics/GLCanvas.h b/libgui/graphics/GLCanvas.h
 @@ -23,14 +23,21 @@
  #if ! defined (octave_GLCanvas_h)
  #define octave_GLCanvas_h 1
- 
+
 -#include <QGLWidget>
 +#if defined (HAVE_QOPENGLWIDGET)
 +#  include <QOpenGLWidget>
@@ -80,9 +80,9 @@ diff --git a/libgui/graphics/GLCanvas.h b/libgui/graphics/GLCanvas.h
 +#else
 +#  error "configuration error: must have <QOpenGLWidget> or <QGLWidget>."
 +#endif
- 
+
  #include "Canvas.h"
- 
+
  namespace QtHandles
  {
 -
@@ -90,7 +90,7 @@ diff --git a/libgui/graphics/GLCanvas.h b/libgui/graphics/GLCanvas.h
 +  class GLCanvas : public OCTAVE_QT_OPENGL_WIDGET, public Canvas
    {
    public:
-     GLCanvas (QWidget *parent, const graphics_handle& handle);
+     GLCanvas (QWidget* parent, const graphics_handle& handle);
 diff --git a/m4/acinclude.m4 b/m4/acinclude.m4
 --- a/m4/acinclude.m4
 +++ b/m4/acinclude.m4
