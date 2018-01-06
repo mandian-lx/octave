@@ -51,7 +51,7 @@ diff --git a/libgui/graphics/GLCanvas.cc b/libgui/graphics/GLCanvas.cc
    {
      if (! canvasKeyPressEvent (xevent))
 -      QGLWidget::keyPressEvent (xevent);
-+      QGLWidget::keyPressEvent (xevent);
++      OCTAVE_QT_OPENGL_WIDGET::keyPressEvent (xevent);
    }
 
    void
