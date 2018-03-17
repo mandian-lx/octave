@@ -28,11 +28,15 @@ Patch3:		octave-3.6.3-detect-i586-as-little-endian-ieee754.patch
 
 # fix crash on exit
 # (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/16fae04366b2)
-Patch100:	%{name}-4.2.1-fix-crash-on-exit.patch
+#Patch100:	%{name}-4.2.1-fix-crash-on-exit.patch
 
 # force to use QOpenGLWidget over QGLWidget (workaroun for qt5)
 # (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/59cdf06c940e)
-Patch101:	%{name}-4.2.1-force-QOpenGLWidget.patch
+#Patch101:	%{name}-4.2.1-force-QOpenGLWidget.patch
+
+# allow printing without updating qt visible or invisible figures (bug #52940).
+# (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/8b935067a257)
+Patch102:	%{name}-4.2.2-allow-qt-figures.patch
 
 BuildRequires:	bison
 BuildRequires:	dejagnu
