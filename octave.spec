@@ -24,9 +24,7 @@ Patch1:		octave-4.2.0-bsdtar.patch
 # and, while the reason is clear (using x87 and 80 bits doubles) the
 # proper library/dependency causing it was not detected.
 # This is not an issue in x86_64 that uses sse2+
-%ifarch %{ix86}
 Patch3:		%{name}-3.6.3-detect-i586-as-little-endian-ieee754.patch
-%endif
 
 # fix crash on exit
 # (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/16fae04366b2)
@@ -164,7 +162,15 @@ This package contains documentation of Octave in various formats.
 
 %prep
 %setup -q
-%apply_patches
+#% apply_patches
+%patch1 -p1
+%ifarch %{ix86}
+%patch3 -p1
+%endif
+#% patch100 -p1
+#% patch101 -p1
+%patch102 -p1
+%patch103 -p1
 
 %build
 export CC=gcc
