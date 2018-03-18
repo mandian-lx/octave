@@ -29,40 +29,31 @@ diff --git a/libgui/graphics/Backend.cc b/libgui/graphics/Backend.cc
    {
 -    if (go.get_properties ().is_visible ())
 -      {
--        ObjectProxy *proxy = toolkitObjectProxy (go);
-+    ObjectProxy *proxy = toolkitObjectProxy (go);
- 
--        if (proxy)
--          proxy->print (QString::fromStdString (file_cmd),
--                        QString::fromStdString (term));
+         ObjectProxy* proxy = toolkitObjectProxy (go);
+
+         if (proxy)
+           proxy->print (QString::fromStdString (file_cmd),
+                         QString::fromStdString (term));
 -      }
-+    if (proxy)
-+      proxy->print (QString::fromStdString (file_cmd),
-+                    QString::fromStdString (term));
    }
- 
-   uint8NDArray
+
+   Object*
 diff --git a/libgui/graphics/Figure.cc b/libgui/graphics/Figure.cc
 --- a/libgui/graphics/Figure.cc
 +++ b/libgui/graphics/Figure.cc
-@@ -432,10 +432,14 @@
+@@ -432,6 +432,10 @@
        return;
- 
+
      figure::properties& fp = properties<figure> ();
 +
 +    if (fp.is___printing__ ())
 +      return;
-+    
-     QMainWindow *win = qWidget<QMainWindow> ();
- 
++
+     QMainWindow* win = qWidget<QMainWindow> ();
+
      m_blockUpdates = true;
--
-+    
-     switch (pId)
-       {
-       case figure::properties::ID_POSITION:
 @@ -465,7 +469,14 @@
- 
+
        case figure::properties::ID_VISIBLE:
          if (fp.is_visible ())
 -          QTimer::singleShot (0, win, SLOT (show ()));
@@ -73,37 +64,28 @@ diff --git a/libgui/graphics/Figure.cc b/libgui/graphics/Figure.cc
 +                gh_manager::auto_lock lock;
 +                fp.set ("__gl_window__", "on");
 +              }
-+          }                
++          }
          else
            win->hide ();
          break;
+@@ -504,7 +504,7 @@
+               win->setVisible (false);
+
+             win->setWindowModality (Qt::ApplicationModal);
+-            win->setVisible (is_visible);
++            win->setVisible (true);
+           }
+         else
+           win->setWindowModality (Qt::NonModal);
 diff --git a/libinterp/corefcn/graphics.in.h b/libinterp/corefcn/graphics.in.h
 --- a/libinterp/corefcn/graphics.in.h
 +++ b/libinterp/corefcn/graphics.in.h
-@@ -1589,7 +1589,7 @@
- 
-   bool_property (const std::string& nm, const graphics_handle& h,
-                  const char *val)
--    : radio_property (nm, h, radio_values (std::string (val) == "on" ? 
-+    : radio_property (nm, h, radio_values (std::string (val) == "on" ?
-                                            "{on}|off" : "on|{off}"), val)
-   { }
- 
-@@ -3159,7 +3159,7 @@
-       callback_property windowscrollwheelfcn , Matrix ()
-       radio_property windowstyle , "{normal}|modal|docked"
- 
--      // Overridden base property  
-+      // Overridden base property
-       // Property is not implemented for figures.
-       // Hide it and set it to a default value that works.
-       radio_property pickableparts h , "{visible}"
 @@ -3169,9 +3169,11 @@
        mutable string_property __gl_renderer__ hr , ""
        mutable string_property __gl_vendor__ hr , ""
        mutable string_property __gl_version__ hr , ""
 +      bool_property __gl_window__ h , "off"
-       string_property __graphics_toolkit__ hs , default_graphics_toolkit ()
+       string_property __graphics_toolkit__ hs , gtk_manager::default_toolkit ()
        any_property __guidata__ h , Matrix ()
        radio_property __mouse_mode__ hS , "{none}|pan|rotate|select|text|zoom"
 +      bool_property __printing__ h , "off"
@@ -116,25 +98,25 @@ diff --git a/scripts/plot/util/print.m b/scripts/plot/util/print.m
 @@ -427,10 +427,13 @@
      ## graphics toolkit translates figure position to eps bbox (points)
      fpos = get (opts.figure, "position");
-     props(end+1).h = opts.figure;
+     props(m+2).h = opts.figure;
 +    props(end).name = "__printing__";
 +    props(end).value = {"off"};
 +    props(end+1).h = opts.figure;
-     props(end).name = "position";
-     props(end).value = {fpos};
+     props(m+2).name = "position";
+     props(m+2).value = {fpos};
      fpos(3:4) = opts.canvas_size;
 -    set (opts.figure, "position", fpos);
 +    set (opts.figure, "__printing__", "on", "position", fpos);
-     nfig += 1;
- 
+
      ## Implement InvertHardCopy option
+     do_hardcopy = strcmp (get (opts.figure, "inverthardcopy"), "on");
 diff --git a/scripts/plot/util/private/__opengl_print__.m b/scripts/plot/util/private/__opengl_print__.m
 --- a/scripts/plot/util/private/__opengl_print__.m
 +++ b/scripts/plot/util/private/__opengl_print__.m
 @@ -150,7 +150,9 @@
        fprintf ("opengl-pipeline: '%s'\n", pipeline{n});
      endif
- 
+
 -    if (strcmp (get (opts.figure, "visible"), "on"))
 +    if (strcmp (get (opts.figure, "visible"), "on")
 +        || (strcmp (get (opts.figure, "__graphics_toolkit__"), "qt")

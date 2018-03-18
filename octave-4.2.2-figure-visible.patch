@@ -12,10 +12,11 @@ the value "visible".
 diff --git a/libinterp/corefcn/graphics.in.h b/libinterp/corefcn/graphics.in.h
 --- a/libinterp/corefcn/graphics.in.h
 +++ b/libinterp/corefcn/graphics.in.h
-@@ -3159,6 +3159,11 @@
+@@ -3159,6 +3159,12 @@
+       callback_property windowkeyreleasefcn , Matrix ()
        callback_property windowscrollwheelfcn , Matrix ()
        radio_property windowstyle , "{normal}|modal|docked"
-
++
 +      // Overridden base property
 +      // Property is not implemented for figures.
 +      // Hide it and set it to a default value that works.
@@ -24,5 +25,4 @@ diff --git a/libinterp/corefcn/graphics.in.h b/libinterp/corefcn/graphics.in.h
        // Octave-specific properties
        mutable string_property __gl_extensions__ hr , ""
        mutable string_property __gl_renderer__ hr , ""
-
 
