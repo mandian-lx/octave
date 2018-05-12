@@ -3,7 +3,7 @@
 %define _disable_lto 1
 
 Name:		octave
-Version:	4.2.2
+Version:	4.4.0
 Release:	1
 Summary:	High-level language for numerical computations
 License:	GPLv3+
