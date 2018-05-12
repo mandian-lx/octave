@@ -36,10 +36,10 @@ Patch3:		%{name}-3.6.3-detect-i586-as-little-endian-ieee754.patch
 
 # allow printing without updating qt visible or invisible figures (bug #52940).
 # (upstream: https://hg.savannah.gnu.org/hgweb/octave/raw-rev/8b935067a257)
-Patch102:	%{name}-4.2.2-allow-qt-figures.patch
+#Patch102:	%{name}-4.2.2-allow-qt-figures.patch
 
 # (upstream: https://hg.savannah.gnu.org/hgweb/octave/rev/3d78a7eb5aa4)
-Patch103:	%{name}-4.2.2-figure-visible.patch
+#Patch103:	%{name}-4.2.2-figure-visible.patch
 
 BuildRequires:	bison
 BuildRequires:	dejagnu
