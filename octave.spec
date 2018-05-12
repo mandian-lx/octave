@@ -1,4 +1,4 @@
-%define octave_api api-v51
+%define octave_api api-v52
 %define _disable_rebuild_configure 1
 %define _disable_lto 1
 
