@@ -215,7 +215,7 @@ cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 %config(noreplace) /etc/ld.so.conf.d/*
 %{_libdir}/octave*
 %{_datadir}/octave
-%{_datadir}/metainfo/www.octave.org-octave.appdata.xml
+%{_datadir}/metainfo/org.octave.Octave.appdata.xml
 %{_datadir}/icons/*/*/apps/octave.png
 %{_datadir}/icons/*/*/apps/octave.svg
 %if "%{_libdir}" != "%{_libexecdir}"
