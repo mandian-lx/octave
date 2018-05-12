@@ -196,17 +196,13 @@ perl -pi -e "s,%{buildroot},," %{buildroot}%{_datadir}/octave/ls-R
 %__rm -rf package-doc
 mkdir -p package-doc
 
-# Create desktop file
-mv %{buildroot}%{_datadir}/applications/www.octave.org-octave.desktop \
-        %{buildroot}%{_datadir}/applications/octave.desktop
-%{_bindir}/desktop-file-install --add-category Education --remove-category Development \
-        --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/octave.desktop
-
+# prepare directory for additional packages
 mkdir -p %{buildroot}%{_datadir}/octave/packages
 /bin/touch %{buildroot}%{_datadir}/octave/octave_packages
 
 #% multiarch_includes %{buildroot}%{_includedir}/octave-%{version}/octave/*.h
 
+# macros for rpmbuild
 mkdir -p %{buildroot}%{_sysconfdir}/rpm/macros.d/
 cp -p %{SOURCE99} %{buildroot}%{_sysconfdir}/rpm/macros.d/
 
