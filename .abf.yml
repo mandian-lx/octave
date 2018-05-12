@@ -1,4 +1,6 @@
 removed_sources:
   octave-4.2.1.tar.lz: 057dbaa30d0ef75e84db30aeda623a2561b0d547
-sources:
   octave-4.2.2.tar.lz: 6dc44b6aa1e1058445e422a727913169075f6b7b
+sources:
+  octave-4.4.0.tar.lz: 2f682e2843d45d858ed7bf603f569d6b0acd2fb9
+
